@@ -12,7 +12,8 @@ The column datetimeEpoch contains valuable information such as the season, day, 
 
 Let's extract the season from datetimeEpoch in Python and print the results:
 
-![](images/image1.png)
+![](images/image1.png)<img width="228" height="314" alt="image1" src="https://github.com/user-attachments/assets/781ef29f-fabc-4721-b7d2-6ba40e0b9dfa" />
+
 
 All values of datetimeEpoch occur within the same season; therefore, datetimeEpoch does not provide meaningful seasonal data (if a feature has a constant value, there is no pattern for a model to learn from).
 
