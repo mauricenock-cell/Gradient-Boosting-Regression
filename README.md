@@ -12,7 +12,7 @@ The column datetimeEpoch contains valuable information such as the season, day, 
 
 Let's extract the season from datetimeEpoch in Python and print the results:
 
-![](Gradient Boosting Regressor (1).zip/image1.png)
+![](images/image1.png)
 
 
 All values of datetimeEpoch occur within the same season; therefore, datetimeEpoch does not provide meaningful seasonal data (if a feature has a constant value, there is no pattern for a model to learn from).
@@ -25,17 +25,17 @@ The column time_of_day is not constant; thus, it provides a pattern for the mode
 
 Label encoding of time_of_day:
 
-![](image3.png)
+![](images/image3.png)
 
 Also, the year data can be extracted from datetimeEpoch. Let's see whether these measurements were taken in the same year.
 
-![](image4.png)
+![](images/image4.png)
 
 All measurements were taken in the same year, so the year column provides no information. The measurements were also taken within the same month, but on different days.
 
 Here is the extracted day-of-month data:
 
-![](image5.png)
+![](images/image5.png)
 
 The day_of_month column is not constant, so it provides a pattern, but all data were collected within the same month. Without data from other months, it would be difficult to determine whether the feature day_of_month correlates with a periodic trend or a long-term one. This should be kept in mind when making predictions.
 
@@ -49,7 +49,7 @@ Here is a printout of the heat map. It's a bit large (the data set has many feat
 
 Left:
 
-![](image6.png)
+![](images/image6.png)
 
 Looking at the dark-colored cluster in the upper left, six features correlate very highly with one another (all pairs have correlation coefficients greater than or equal to 0.8). The features are tempmax, tempmin, temp, feelslikemax, feelslikemin, and feelslike. Several rules will determine which feature/s to remove. One can keep the feature/s that correlate most highly with the target, keep the feature/s that are most intuitive to stakeholders, keep the feature that has the highest variance (features whose values do not vary much provide less of a pattern for a model to learn from and can be removed), etc. Looking at the cluster, subjective and objective measures of temperature correlate almost perfectly. For example, the feature feelslikemin correlates with tempmin at 0.99. Correlations between the other two subjective-objective pairs within the cluster are similar. The subjective measures of temperature correlate more strongly with the target feature (healthRiskScore), and the objective and subjective groups have similar variance, so the objective measures of temperature (tempmax, tempmin, temp) can be removed. Next, feelslikemin and feelslikemax can be removed, but before removal, the difference between them can be stored in a new feature (a large difference between the highest and lowest outdoor temperature on a given day is known to be related to health risk). A new feature, which is the difference between the two, called subjectiveTempDiff, will be created.
 
@@ -61,7 +61,7 @@ The feature severityScore, which represents the severity of weather conditions, 
 
 Right:
 
-![](image7.png)
+![](images/image7.png)
 
 Looking at the right side of the heat map, sollarradiation and solarenergy are almost perfectly correlated. Both are similarly correlated with the target feature, but solarradiation has higher variance, so it will be kept. Earlier, day_of_month was extracted from datetimeEpoch. It correlates with moonphase at 0.99. Both correlate with the target at -0.11, but moonphase has higher variance, so day_of_month will be removed.
 
@@ -69,11 +69,11 @@ Heat map after deletions:
 
 Left:
 
-![](image8.png)
+![](images/image8.png)
 
 Right:
 
-![](image9.png)
+![](images/image9.png)
 
 Looking at the updated heat map, high pairwise correlations (above 0.8) have been reduced substantially, but one was missed. A new variable was created called subjectiveTempDiff by finding the difference between the variables feelslikemax and feelslikemin, but a variable named tempRange was overlooked. This variable and subjectiveTempDiff correlate very highly and may measure the same thing; therefore, one of them should be removed. The feature subjectiveTempDiff correlates more highly with the target, and its variance is similar to that of tempRange, so tempRange will be removed.
 
@@ -83,7 +83,7 @@ To check for multicollinearity, VIF (Variance Inflation Factor) is used. Here's 
 
 VIF printout:
 
-![](image10.png)
+![](images/image10.png)
 
 There are 6 features whose VIF values surpass the threshold of 5. These values are possibly the result of high pairwise correlations that have not been rectified. The pairs feelslike and heatIndex, uvindex and solarradiation, and humidity and dew still correlate highly with each other. The pairs are still present because either the members of a given pair were thought to be dissimilar constructs, or the correlational threshold of 0.8 was not met. Removing a feature from each pair should reduce the VIF value of the remaining feature of each pair.
 
@@ -95,7 +95,7 @@ Features solarradiation and uvindex also have VIF values above 5. They are highl
 
 Updated VIF values:
 
-![](image11.png)
+![](images/image11.png)
 
 All values are now under 5; therefore, multicollinearity has been reduced to an acceptable level (there are still two features with VIF values of roughly 4, but these will be left alone since the threshold of 5 isn't met).
 
@@ -109,29 +109,29 @@ Next, 5-fold cross-validation and hyperparameter tuning will be performed on the
 
 List of hyperparameters:
 
-![](image12.png)
+![](images/image12.png)
 
 These will be tuned using randomizedSearchCV(), which selects random values within a range to use. This is computationally less expensive than trying every value within a range and still yields good accuracy.
 
 Results of 5-fold cross-validation:
 
-![](image13.png)
+![](images/image13.png)
 
 Model accuracy (test set):
 
-![](image14.png)
+![](images/image14.png)
 
 Results/Feature Importance (SHAP):
 
 Rank of importance (Bar plot):
 
-![](image15.png)
+![](images/image15.png)
 
 For each feature on the plot above, the corresponding value is found by taking the absolute value of every SHAP value of the feature (from each data point) and computing the average.
 
 Rank of Importance (Summary plot):
 
-![](image16.png)
+![](images/image16.png)
 
 The summary plot gives a localized and global view of importance.
 
