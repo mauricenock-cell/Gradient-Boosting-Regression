@@ -19,7 +19,7 @@ All values of datetimeEpoch occur within the same season; therefore, datetimeEpo
 
 Next, let's extract the time of day (morning, day, evening, night) from datetimeEpoch. Here is a Python printout:
 
-![](images/image2.png)
+![](./images/image2.png)
 
 The column time_of_day is not constant; thus, it provides a pattern for the model to learn from. But text values such as "morning", "day", "night", etc. cannot be used by the model directly. Each text value must be converted to an integer. The text values "morning", "day", "evening", "night" in the time_of_day column will be replaced by values 0, 1, 2, 3, respectively. The time_of_day column can now be used by the model. This feature is also periodic. Periodic features are, in some cases, cyclically encoded (especially when using linear models or neural networks) since the minimum and maximum values of a periodic feature are next to each other (like a clock), but cyclical encoding typically results in worse model accuracy when used with decision trees. This is because cyclical encoding involves splitting the feature into two features, each representing the sine and cosine components of the original. The issue is that decision trees only split one feature at a time, but both components are needed simultaneously to get the x and y coordinates on the unit circle where the original feature value (time of day in this case) lies. With decision trees, it's best to leave the periodic data as is (or use label encoding if the data is textual), according to some sources.
 
