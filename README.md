@@ -12,7 +12,7 @@ The column datetimeEpoch contains valuable information such as the season, day, 
 
 Let's extract the season from datetimeEpoch in Python and print the results:
 
-![](Gradient Boosting Regressor (1).zip/images/image1.png)
+![](Gradient Boosting Regressor (1).zip/image1.png)
 
 
 All values of datetimeEpoch occur within the same season; therefore, datetimeEpoch does not provide meaningful seasonal data (if a feature has a constant value, there is no pattern for a model to learn from).
