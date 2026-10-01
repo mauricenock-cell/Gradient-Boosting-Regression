@@ -121,7 +121,9 @@ Model accuracy (test set):
 
 ![](images/image14.png)
 
+
 Results/Feature Importance (SHAP):
+
 
 Rank of importance (Bar plot):
 
